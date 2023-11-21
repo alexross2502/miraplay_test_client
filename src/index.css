@@ -1,13 +1,69 @@
+@font-face {
+  font-family: "MyFont";
+  src: url("../public/fonts/NeueMachina-Ultralight.f86fd9a54ade02fc6eff.woff2")
+    format("woff2");
+  font-weight: 100;
+  font-style: normal;
+}
+@font-face {
+  font-family: "MyFont";
+  src: url("../public/fonts/NeueMachina-Ultrabold.5310e4a5401b5d25eeba.woff2")
+    format("woff2");
+
+  font-weight: 800;
+  font-style: normal;
+}
+@font-face {
+  font-family: "MyFont";
+  src: url("../public/fonts/NeueMachina-Regular.2dabb3622c2ec78c26ea.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "MyFont";
+  src: url("../public/fonts/NeueMachina-Light.418f63ac88af6ed51de9.woff2")
+    format("woff2");
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: "MyFont";
+  src: url("../public/fonts/NeueMachina-Black.a5d08d03e9e32b9c1224.woff2")
+    format("woff2");
+  font-weight: 900;
+  font-style: normal;
+}
+@font-face {
+  font-family: "MyFont";
+  src: url("../public/fonts/NeueMachina-Bold.d49ee994b16c7a8be96e.woff2")
+    format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+
 body {
+  background-color: #181818;
+  cursor: url("../public/assets/cursor.png") 2 2, pointer;
+  font-family: "MyFont", sans-serif;
+  line-height: 1.5;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  min-height: 110vh;
+  text-rendering: optimizeSpeed;
+  color: #afafaf;
+}
+
+body::-webkit-scrollbar {
+  background-color: #1d1d1d;
+  height: 6px;
+  width: 6px;
+}
+body::-webkit-scrollbar-thumb {
+  background-color: #3f9c14;
+  border-radius: 5px;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
