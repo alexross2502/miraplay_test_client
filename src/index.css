@@ -9,7 +9,6 @@
   font-family: "MyFont";
   src: url("../public/fonts/NeueMachina-Ultrabold.5310e4a5401b5d25eeba.woff2")
     format("woff2");
-
   font-weight: 800;
   font-style: normal;
 }
@@ -61,6 +60,11 @@ body::-webkit-scrollbar {
 body::-webkit-scrollbar-thumb {
   background-color: #3f9c14;
   border-radius: 5px;
+}
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 code {
