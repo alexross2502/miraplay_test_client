@@ -1,0 +1,20 @@
+.container {
+  color: #fff;
+  height: 100%;
+  margin-bottom: -100px;
+  padding-bottom: 125px;
+  position: relative;
+  width: 100%;
+  margin-top: 90px;
+}
+.container_video {
+  background-size: cover;
+  right: -200px;
+  z-index: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  width: 100%;
+}
