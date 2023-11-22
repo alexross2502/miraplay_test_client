@@ -1,4 +1,5 @@
 .container {
+  display: block;
   color: #fff;
   height: 100%;
   margin-bottom: -100px;
@@ -6,6 +7,19 @@
   position: relative;
   width: 100%;
   margin-top: 90px;
+  overflow: visible;
+}
+.container:after {
+  background: linear-gradient(
+    -80deg,
+    #181818 25%,
+    hsla(0, 0%, 9%, 0) 66.32%,
+    #181818 88.28%
+  );
+  background-size: cover;
+  content: "";
+  height: 100%;
+  right: 0;
 }
 .container_video {
   background-size: cover;
@@ -16,5 +30,5 @@
   top: 0;
   -webkit-transform: scaleX(-1);
   transform: scaleX(-1);
-  width: 100%;
+  width: 1400px;
 }
