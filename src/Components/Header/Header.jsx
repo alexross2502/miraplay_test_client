@@ -6,7 +6,7 @@ import RegistrationForm from "../RegistrationForm/RegistrationForm";
 import { useState } from "react";
 import modalHandler from "../../utils/modalHandler";
 
-const Header = () => {
+const Header = ({ setErrorMessage, setErrorModalActive }) => {
   const [isModalActive, setModalActive] = useState(false);
 
   return (
@@ -15,6 +15,8 @@ const Header = () => {
         <RegistrationForm
           isModalActive={isModalActive}
           setModalActive={setModalActive}
+          setErrorMessage={setErrorMessage}
+          setErrorModalActive={setErrorModalActive}
         />
       )}
       <div className={style.header}>

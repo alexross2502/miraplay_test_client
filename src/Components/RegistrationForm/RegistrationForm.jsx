@@ -2,7 +2,12 @@ import { useState } from "react";
 import style from "./registrationForm.module.css";
 import { ReactComponent as CloseSVG } from "./close.svg";
 
-const RegistrationForm = ({ isModalActive, setModalActive }) => {
+const RegistrationForm = ({
+  isModalActive,
+  setModalActive,
+  setErrorMessage,
+  setErrorModalActive,
+}) => {
   const [isRegistrationActive, setRegistrationActive] = useState(true);
 
   function formSwitch(prevState) {
