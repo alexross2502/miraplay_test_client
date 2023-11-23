@@ -53,6 +53,7 @@ body {
   min-height: 110vh;
   text-rendering: optimizeSpeed;
   color: #afafaf;
+  overflow-x: hidden;
 }
 
 body::-webkit-scrollbar {

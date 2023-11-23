@@ -1,6 +1,7 @@
 import { useState } from "react";
 import style from "./registrationForm.module.css";
 import { ReactComponent as CloseSVG } from "./close.svg";
+import modalHandler from "../../utils/modalHandler";
 
 const RegistrationForm = ({
   isModalActive,
@@ -9,7 +10,6 @@ const RegistrationForm = ({
   setErrorModalActive,
 }) => {
   const [isRegistrationActive, setRegistrationActive] = useState(true);
-
   function formSwitch(prevState) {
     setRegistrationActive(!prevState);
   }
@@ -18,7 +18,7 @@ const RegistrationForm = ({
     <div
       className={style.background}
       onClick={() => {
-        setModalActive(false);
+        setModalActive(modalHandler(isModalActive));
       }}
     >
       <div
