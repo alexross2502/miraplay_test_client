@@ -1,8 +1,9 @@
 const setGames = "setGames";
 
 const defaultState = {
-  games: [],
-  gamesListLength: 0,
+  isFreshGamesFirst: true,
+  genre: false,
+  gamesToShow: 9,
 };
 
 export default function gamesReducer(state = defaultState, action) {
@@ -10,8 +11,7 @@ export default function gamesReducer(state = defaultState, action) {
     case setGames:
       return {
         ...state,
-        games: action.data.games || [],
-        total: action.data.gamesListLength,
+        ...action.data,
       };
 
     default:
@@ -19,4 +19,19 @@ export default function gamesReducer(state = defaultState, action) {
   }
 }
 
-export const setModalAddTowns = (data) => ({ type: setGames, data });
+export const setSettings = (isFreshGamesFirst, genre) => {
+  const newData = {};
+
+  if (isFreshGamesFirst !== undefined) {
+    newData.isFreshGamesFirst = isFreshGamesFirst;
+  }
+
+  if (genre !== undefined) {
+    newData.genre = genre;
+  }
+
+  return {
+    type: setGames,
+    data: newData,
+  };
+};

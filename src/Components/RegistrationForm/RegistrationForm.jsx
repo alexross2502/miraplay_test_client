@@ -53,6 +53,7 @@ const RegistrationForm = ({
       });
       if (response?.status === 200) {
         localStorage.setItem("Authorization", response?.data);
+        modalHandler(true);
         navigate("/games_lib");
       }
     } catch (error) {

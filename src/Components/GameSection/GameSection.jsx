@@ -5,6 +5,7 @@ import GameCard from "./GameCard";
 import { useDispatch, useSelector } from "react-redux";
 import { useMutation } from "react-query";
 import Api from "../../utils/api";
+import { setSettings } from "../../redux/gamesReducer";
 
 const GameSection = () => {
   const [activeGenre, setActiveGenre] = useState("ВСІ");
@@ -14,7 +15,14 @@ const GameSection = () => {
   const [gamesOnPage, setGamesOnPage] = useState(9);
   const dispatch = useDispatch();
   //const counter = useSelector((state) => state.games);
+  function GetSettings() {
+    return useSelector((state) => state.games);
+  }
+  useEffect(() => {
+    mutate();
+  }, [activeAge, activeGenre]);
 
+  const settings = useSelector((state) => state.games);
   const genres = [
     "ВСІ",
     "БЕЗКОШТОВНІ",
@@ -30,11 +38,7 @@ const GameSection = () => {
   ];
 
   async function fetchGames() {
-    return Api.game({
-      isFreshGamesFirst: true,
-      genre: false,
-      gamesToShow: 9,
-    });
+    return Api.game(settings);
   }
 
   const { data, mutate, isLoading } = useMutation({
@@ -67,9 +71,9 @@ const GameSection = () => {
             className={`${style.filterItem} ${
               activeAge ? style.filterItemSelected : null
             }`}
-            onClick={() => {
-              setActiveAge(!activeAge);
-              mutate();
+            onClick={async () => {
+              setActiveAge(true);
+              dispatch(setSettings(true));
             }}
           >
             Спочатку нові
@@ -78,9 +82,9 @@ const GameSection = () => {
             className={`${style.filterItem} ${
               !activeAge ? style.filterItemSelected : null
             }`}
-            onClick={() => {
-              setActiveAge(!activeAge);
-              mutate();
+            onClick={async () => {
+              setActiveAge(false);
+              dispatch(setSettings(false));
             }}
           >
             Спочатку старі
@@ -89,7 +93,16 @@ const GameSection = () => {
       </div>
       <div className={style.gamesContainer}>
         {gamesList?.slice(0, gamesOnPage).map((el) => {
-          return <GameCard />;
+          console.log(el);
+          return (
+            <GameCard
+              gameName={el.commonGameName}
+              imageURL={el.gameImage}
+              genre={el.genre}
+              description={el.gameDescription}
+              gameClass={el.gameClass}
+            />
+          );
         })}
       </div>
       {gamesListLength > gamesOnPage ? (
