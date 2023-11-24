@@ -1,9 +1,12 @@
 import { instance } from "./axios";
 
 const Api = {
-  get: async function (url) {
+  token: async function (token) {
     return await instance({
-      url,
+      url: "token",
+      headers: {
+        Authorization: `${token}`,
+      },
     });
   },
 

@@ -1,0 +1,69 @@
+.container {
+  margin: 0 auto;
+  margin-top: 120px;
+  min-height: 500px;
+  padding-bottom: 50px;
+  width: 1170px;
+}
+.container_header {
+  color: #fff;
+  font-size: 48px;
+  font-weight: 900;
+  line-height: 100%;
+  margin-bottom: 42px;
+}
+.container_settings {
+  display: flex;
+  justify-content: space-between;
+}
+.container_settings__filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  width: 800px;
+}
+.filterItem {
+  align-items: center;
+  background: #242424;
+  border: 1px solid #454545;
+  border-radius: 10px;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  font-size: 14px;
+  font-weight: 800;
+  height: 46px;
+  justify-content: center;
+  line-height: 143%;
+  padding: 0 25px;
+}
+.filterItemSelected {
+  background-color: #3f9c14;
+}
+.container_settings__age {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.gamesContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  margin-top: 65px;
+  width: 100%;
+}
+.gamesContainer_item {
+  background: #1c1c1c;
+  border: 1px solid #454545;
+  border-radius: 20px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  outline: none;
+  overflow: hidden;
+  position: relative;
+  width: 370px;
+}

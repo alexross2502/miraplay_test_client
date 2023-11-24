@@ -4,6 +4,7 @@ import { ReactComponent as CloseSVG } from "./close.svg";
 import modalHandler from "../../utils/modalHandler";
 import Api from "../../utils/api";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 const RegistrationForm = ({
   isModalActive,
@@ -13,7 +14,6 @@ const RegistrationForm = ({
   setModalType,
 }) => {
   const [isRegistrationActive, setRegistrationActive] = useState(true);
-
   const {
     handleSubmit,
     register,
@@ -22,17 +22,16 @@ const RegistrationForm = ({
   } = useForm({
     mode: "onBlur",
   });
+  const navigate = useNavigate();
 
   function formSwitch(prevState) {
     setRegistrationActive(!prevState);
   }
 
   async function submitFunction(atr) {
-    if (isRegistrationActive) {
-      return registrationController(atr.login, atr.password);
-    } else {
-      return authorizationController(atr.login, atr.password);
-    }
+    isRegistrationActive
+      ? registrationController(atr.login, atr.password)
+      : authorizationController(atr.login, atr.password);
   }
 
   async function registrationController(login, password) {
@@ -41,6 +40,7 @@ const RegistrationForm = ({
         login,
         password,
       });
+      console.log(response);
     } catch (error) {
       console.log("error : ", error);
     }
@@ -51,6 +51,10 @@ const RegistrationForm = ({
         login,
         password,
       });
+      if (response?.status === 200) {
+        localStorage.setItem("Authorization", response?.data);
+        navigate("/games_lib");
+      }
     } catch (error) {
       console.log("error : ", error);
     }
