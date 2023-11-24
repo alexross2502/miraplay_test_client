@@ -1,11 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FilterItem from "./FilterItem";
 import style from "./gameSection.module.css";
 import GameCard from "./GameCard";
+import { useDispatch, useSelector } from "react-redux";
+import { useMutation } from "react-query";
+import Api from "../../utils/api";
 
 const GameSection = () => {
   const [activeGenre, setActiveGenre] = useState("ВСІ");
   const [activeAge, setActiveAge] = useState(true);
+  const [gamesList, setGamesList] = useState();
+  const [gamesListLength, setGamesListLength] = useState();
+  const [gamesOnPage, setGamesOnPage] = useState(9);
+  const dispatch = useDispatch();
+  //const counter = useSelector((state) => state.games);
+
   const genres = [
     "ВСІ",
     "БЕЗКОШТОВНІ",
@@ -20,6 +29,22 @@ const GameSection = () => {
     "ОНЛАЙН",
   ];
 
+  async function fetchGames() {
+    return Api.game({
+      isFreshGamesFirst: true,
+      genre: false,
+      gamesToShow: 9,
+    });
+  }
+
+  const { data, mutate, isLoading } = useMutation({
+    mutationFn: fetchGames,
+    onSuccess: (fetchedData) => {
+      setGamesList(fetchedData.data.games);
+      setGamesListLength(fetchedData.data.gamesListLength);
+    },
+  });
+
   return (
     <section className={style.container}>
       <h4 className={style.container_header}>ВСІ ІГРИ</h4>
@@ -31,6 +56,7 @@ const GameSection = () => {
                 text={text}
                 activeGenre={activeGenre}
                 setActiveGenre={setActiveGenre}
+                mutate={mutate}
                 key={text}
               />
             );
@@ -43,6 +69,7 @@ const GameSection = () => {
             }`}
             onClick={() => {
               setActiveAge(!activeAge);
+              mutate();
             }}
           >
             Спочатку нові
@@ -53,6 +80,7 @@ const GameSection = () => {
             }`}
             onClick={() => {
               setActiveAge(!activeAge);
+              mutate();
             }}
           >
             Спочатку старі
@@ -60,10 +88,20 @@ const GameSection = () => {
         </div>
       </div>
       <div className={style.gamesContainer}>
-        <GameCard />
-        <GameCard />
-        <GameCard />
+        {gamesList?.slice(0, gamesOnPage).map((el) => {
+          return <GameCard />;
+        })}
       </div>
+      {gamesListLength > gamesOnPage ? (
+        <button
+          className={style.button}
+          onClick={() => {
+            setGamesOnPage(gamesOnPage + 9);
+          }}
+        >
+          ПОКАЗАТИ ЩЕ
+        </button>
+      ) : null}
     </section>
   );
 };

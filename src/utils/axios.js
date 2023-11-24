@@ -7,6 +7,13 @@ export const instance = axios.create({
   },
 });
 
+export const gameInstance = axios.create({
+  baseURL: "https://api.miraplay.cloud/games/by_page",
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
 instance.interceptors.response.use(
   function (response) {
     return response;

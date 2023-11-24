@@ -1,4 +1,4 @@
-import { instance } from "./axios";
+import { gameInstance, instance } from "./axios";
 
 const Api = {
   token: async function (token) {
@@ -13,6 +13,13 @@ const Api = {
   post: async function (url, data) {
     return await instance({
       url,
+      method: "post",
+      data,
+    });
+  },
+
+  game: async function (data) {
+    return await gameInstance({
       method: "post",
       data,
     });

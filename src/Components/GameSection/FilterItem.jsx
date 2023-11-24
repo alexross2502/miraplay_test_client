@@ -1,6 +1,6 @@
 import style from "./gameSection.module.css";
 
-const FilterItem = ({ text, activeGenre, setActiveGenre }) => {
+const FilterItem = ({ text, activeGenre, setActiveGenre, mutate }) => {
   async function clickHandler() {
     setActiveGenre(text);
   }
@@ -12,6 +12,7 @@ const FilterItem = ({ text, activeGenre, setActiveGenre }) => {
       }`}
       onClick={() => {
         clickHandler();
+        mutate();
       }}
     >
       {text}

@@ -67,3 +67,21 @@
   position: relative;
   width: 370px;
 }
+.button {
+  background-color: #242424;
+  border: 1px solid #454545;
+  border-radius: 20px;
+  color: #fff;
+  cursor: pointer;
+  display: block;
+  font-size: 14px;
+  font-weight: 800;
+  height: 78px;
+  line-height: 143%;
+  margin: 41px auto 0;
+  text-align: center;
+  width: 370px;
+}
+.button:hover {
+  background-color: #3f9c14;
+}
