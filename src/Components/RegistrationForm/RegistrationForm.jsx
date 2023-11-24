@@ -57,7 +57,9 @@ const RegistrationForm = ({
         navigate("/games_lib");
       }
     } catch (error) {
-      console.log("error : ", error);
+      setErrorMessage("Невірний логін чи пароль");
+      setModalType("error");
+      setErrorModalActive();
     }
   }
 

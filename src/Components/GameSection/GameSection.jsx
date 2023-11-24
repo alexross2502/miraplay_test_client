@@ -93,7 +93,6 @@ const GameSection = () => {
       </div>
       <div className={style.gamesContainer}>
         {gamesList?.slice(0, gamesOnPage).map((el) => {
-          console.log(el);
           return (
             <GameCard
               gameName={el.commonGameName}
