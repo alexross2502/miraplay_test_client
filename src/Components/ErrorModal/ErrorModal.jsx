@@ -2,7 +2,7 @@ import style from "./errorModal.module.css";
 import { ReactComponent as NotificationSVG } from "./notification.svg";
 import { ReactComponent as CloseSVG } from "./close.svg";
 
-const ErrorModal = ({ setErrorModalActive, errorMessage }) => {
+const ErrorModal = ({ setErrorModalActive, errorMessage, modalType }) => {
   setInterval(() => {
     setErrorModalActive(false);
   }, 5000);

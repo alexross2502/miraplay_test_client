@@ -1,23 +1,65 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import style from "./registrationForm.module.css";
 import { ReactComponent as CloseSVG } from "./close.svg";
 import modalHandler from "../../utils/modalHandler";
+import Api from "../../utils/api";
+import { useForm } from "react-hook-form";
 
 const RegistrationForm = ({
   isModalActive,
   setModalActive,
   setErrorMessage,
   setErrorModalActive,
+  setModalType,
 }) => {
   const [isRegistrationActive, setRegistrationActive] = useState(true);
+
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+    reset,
+  } = useForm({
+    mode: "onBlur",
+  });
+
   function formSwitch(prevState) {
     setRegistrationActive(!prevState);
+  }
+
+  async function submitFunction(atr) {
+    if (isRegistrationActive) {
+      return registrationController(atr.login, atr.password);
+    } else {
+      return authorizationController(atr.login, atr.password);
+    }
+  }
+
+  async function registrationController(login, password) {
+    try {
+      const response = await Api.post("users/registration", {
+        login,
+        password,
+      });
+    } catch (error) {
+      console.log("error : ", error);
+    }
+  }
+  async function authorizationController(login, password) {
+    try {
+      const response = await Api.post("users", {
+        login,
+        password,
+      });
+    } catch (error) {
+      console.log("error : ", error);
+    }
   }
 
   return (
     <div
       className={style.background}
-      onClick={() => {
+      onClick={async () => {
         setModalActive(modalHandler(isModalActive));
       }}
     >
@@ -51,48 +93,44 @@ const RegistrationForm = ({
         </div>
 
         <form
-          className={`${style.container_form} ${
-            isRegistrationActive
-              ? style.container_formActive
-              : style.container_formInactive
-          }`}
+          className={style.container_form}
+          onSubmit={handleSubmit(submitFunction)}
         >
           <h3>Спробуй нові відчуття</h3>
-          <p>Зареєструйся, щоб грати на максималках у свої улюблені ігри</p>
+          <p>
+            {isRegistrationActive
+              ? "Зареєструйся, щоб грати на максималках у свої улюблені ігри"
+              : "Увійди, щоб грати на максималках у свої улюблені ігри"}
+          </p>
           <label className={style.container_form__label}>
             введіть ваш email:
-            <input className={style.container_form__input} type="text"></input>
+            <input
+              className={style.container_form__input}
+              type="text"
+              {...register("login", {
+                required: "empty",
+              })}
+            ></input>
           </label>
           <label className={style.container_form__label}>
             введіть ваш пароль:
             <input
               className={style.container_form__input}
               type="password"
+              {...register("password", {
+                required: "empty",
+              })}
             ></input>
           </label>
-          <button className={style.container_form__button}>РЕЄСТРАЦІЯ</button>
-        </form>
-        <form
-          className={`${style.container_form} ${
-            !isRegistrationActive
-              ? style.container_formActive
-              : style.container_formInactive
-          }`}
-        >
-          <h3>Спробуй нові відчуття</h3>
-          <p>Увійди, щоб грати на максималках у свої улюблені ігри</p>
-          <label className={style.container_form__label}>
-            введіть ваш email:
-            <input className={style.container_form__input} type="text"></input>
-          </label>
-          <label className={style.container_form__label}>
-            введіть ваш пароль:
-            <input
-              className={style.container_form__input}
-              type="password"
-            ></input>
-          </label>
-          <button className={style.container_form__button}>ВХІД</button>
+          {isRegistrationActive ? (
+            <button className={style.container_form__button} type="submit">
+              РЕЄСТРАЦІЯ
+            </button>
+          ) : (
+            <button className={style.container_form__button} type="submit">
+              ВХІД
+            </button>
+          )}
         </form>
       </div>
       <button className={style.closeButton}>
