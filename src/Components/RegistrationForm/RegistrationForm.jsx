@@ -5,6 +5,7 @@ import modalHandler from "../../utils/modalHandler";
 import Api from "../../utils/api";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { useMutation, useQuery } from "react-query";
 
 const RegistrationForm = ({
   isModalActive,
@@ -14,6 +15,9 @@ const RegistrationForm = ({
   setModalType,
 }) => {
   const [isRegistrationActive, setRegistrationActive] = useState(true);
+  const [fetchLogin, setFetchLogin] = useState("");
+  const [fetchPassword, setFetchPassword] = useState("");
+  const [fetchURL, setFetchURL] = useState("");
   const {
     handleSubmit,
     register,
@@ -28,40 +32,75 @@ const RegistrationForm = ({
     setRegistrationActive(!prevState);
   }
 
-  async function submitFunction(atr) {
-    isRegistrationActive
-      ? registrationController(atr.login, atr.password)
-      : authorizationController(atr.login, atr.password);
+  function modalOpen(message, type) {
+    setErrorModalActive(true);
+    setErrorMessage(message);
+    setModalType(type);
   }
 
-  async function registrationController(login, password) {
-    try {
-      const response = await Api.post("users/registration", {
-        login,
-        password,
-      });
-      console.log(response);
-    } catch (error) {
-      console.log("error : ", error);
-    }
+  async function submitFunction(atr) {
+    isRegistrationActive
+      ? (async () => {
+          await setFetchLogin(atr.login);
+          await setFetchPassword(atr.password);
+          await setFetchURL("/users/registration");
+          mutate();
+        })()
+      : (async () => {
+          await setFetchLogin(atr.login);
+          await setFetchPassword(atr.password);
+          await setFetchURL("/users");
+          mutate();
+        })();
   }
-  async function authorizationController(login, password) {
-    try {
-      const response = await Api.post("users", {
-        login,
-        password,
-      });
-      if (response?.status === 200) {
-        localStorage.setItem("Authorization", response?.data);
+
+  const { data, mutate, isLoading } = useMutation({
+    mutationFn: fetchController,
+    onSuccess: (fetchedData) => {
+      if (fetchURL === "/users" && fetchedData.status === 200) {
+        localStorage.setItem("Authorization", fetchedData.data);
         modalHandler(true);
         navigate("/games_lib");
       }
+      if (
+        fetchURL === "/users" &&
+        fetchedData?.response?.data?.message === "Wrong login or password"
+      ) {
+        modalOpen("Невірний логін чи пароль", "error");
+      }
+      if (
+        fetchURL === "/users/registration" &&
+        fetchedData?.response?.data?.message === "Login already exists."
+      ) {
+        modalOpen("Вибраний логін вже зайнятий", "error");
+      }
+      if (fetchURL === "/users/registration" && fetchedData?.status === 200) {
+        modalOpen("Ви успішно зареєструвались", "success");
+      }
+    },
+    onError: (error) => {},
+  });
+
+  async function fetchController() {
+    try {
+      const response = await Api.post(fetchURL, {
+        login: fetchLogin,
+        password: fetchPassword,
+      });
+      return response;
     } catch (error) {
-      setErrorMessage("Невірний логін чи пароль");
-      setModalType("error");
-      setErrorModalActive();
+      return error;
     }
   }
+
+  // if (response?.status === 200) {
+  //   localStorage.setItem("Authorization", response?.data);
+  //   modalHandler(true);
+  //   navigate("/games_lib");
+  // }
+  // setErrorMessage("Невірний логін чи пароль");
+  // setModalType("error");
+  // setErrorModalActive();
 
   return (
     <div
